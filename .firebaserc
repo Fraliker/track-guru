@@ -1,5 +1,6 @@
 {
   "projects": {
-    "dep": "ng2-tracking-app-45173"
+    "dep": "ng2-tracking-app-45173",
+    "default": "ng2-tracking-app-45173"
   }
 }
