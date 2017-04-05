@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { AuthService } from '../providers/auth.service';
 import { GmapsComponent } from './../gmaps/gmaps.component';
+import { MapAddonsService} from './../services/map-addons.service';
 
 @Component({
   selector: 'app-event',
@@ -16,9 +17,10 @@ export class EventComponent implements OnInit {
   dbEvent: FirebaseObjectObservable<any>;
   dbUser: FirebaseObjectObservable<any>;
   trackingId: number;
-  trackingStartTime: Date;
+  trackingStartTime: number;
   trackedPoints: Point[];
   actualTrack: Track;
+  actualDistance = 0;
   trackKey: string;
   Math: any;
   navigator: any;
@@ -31,7 +33,13 @@ export class EventComponent implements OnInit {
   private user_displayName: String;
   private user_email: String;
 
-  constructor(af: AngularFire, public authService: AuthService, private router: Router, public route: ActivatedRoute) {
+  constructor(
+    public af: AngularFire,
+    public authService: AuthService,
+    private router: Router,
+    public route: ActivatedRoute,
+    public mapAddons: MapAddonsService
+  ) {
     this.dbTracks = af.database.list('/tracks');
     this.dbUsers = af.database.list(`/users`);
 
@@ -80,7 +88,7 @@ export class EventComponent implements OnInit {
       return alert('Geolocation is not supported by your browser');
     }
 
-    this.trackingStartTime = new Date;
+    this.trackingStartTime = Date.now();
     this.trackedPoints = [];
     this.actualTrack = {
       created_at: this.trackingStartTime,
@@ -96,6 +104,11 @@ export class EventComponent implements OnInit {
       // conversion m/s to km/h + parse sample: 12.5
       const actualSpeed = parseFloat((position.coords.speed  * 3.6).toFixed(1));
       const actualAlt = position.coords.altitude || 0;
+
+      this.af.database
+        .object(`/tracks/${this.trackingStartTime}`)
+        .subscribe((track) =>  this.actualDistance = this.mapAddons.getDistance(track)); //);
+
       this.dbUser.update({
         alt: actualAlt,
         isTracking: true,
@@ -103,6 +116,7 @@ export class EventComponent implements OnInit {
         mapCenterLng: actualLng,
         mapZoom: this.defaultZoom,
         speed: actualSpeed,
+        distance: this.actualDistance
       });
 
       const point: Point = {
@@ -142,7 +156,6 @@ export class EventComponent implements OnInit {
       this.dbTracks.remove();
     }
   }
-
 }
 
 interface Point {
@@ -151,7 +164,7 @@ interface Point {
 }
 
 interface Track {
-  created_at: Date;
+  created_at: number;
   trackColor: string;
   points: Point[];
   userId: string;
