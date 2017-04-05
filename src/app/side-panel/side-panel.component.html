@@ -25,6 +25,12 @@
         >
          Alt: {{dbUser?.alt || 0}} m
         </div>
+        <div
+          class="side-panel__stat-item"
+          [class.hidden]="!dbUser.isTracking"
+        >
+         Distance: {{dbUser?.distance || 0}} km
+        </div>
       </div>
       <button
         *ngIf="isActualUser(dbUser.uid)"

@@ -24,6 +24,7 @@ import { AuthGuard } from './guards/index';
 import { routing } from './app.routing';
 import { EventListComponent } from './event-list/event-list.component';
 import { EventCreateComponent } from './event-create/event-create.component';
+import { MapAddonsService} from './services/map-addons.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { EventCreateComponent } from './event-create/event-create.component';
     }),
     routing
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, AuthService, MapAddonsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
