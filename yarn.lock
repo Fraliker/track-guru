@@ -217,6 +217,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+angular-2-dropdown-multiselect@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/angular-2-dropdown-multiselect/-/angular-2-dropdown-multiselect-1.0.7.tgz#b76cfb18f88dcf3ca083c4a02069fd482fa894a3"
+
 angular2-google-maps@^0.17.0:
   version "0.17.0"
   resolved "https://registry.yarnpkg.com/angular2-google-maps/-/angular2-google-maps-0.17.0.tgz#ad8366fa4e5c56de0b8b20f003b5f7a1da06ffe3"
