@@ -8,7 +8,11 @@
     class="side-panel__wrapper"
     [class.side-panel__wrapper--hidden]="isPanelClosed"
   >
-    <li *ngFor="let dbUser of dbUsers | async" class="side-panel__item clearfix">
+    <li
+      *ngFor="let dbUser of dbUsers | async"
+      class="side-panel__item clearfix"
+      [class.side-panel__item--finished]="dbUser?.isFinished"
+    >
       <div class="side-panel__name">
         {{dbUser.full_name}}
       </div>
@@ -27,31 +31,36 @@
         </div>
         <div
           class="side-panel__stat-item"
-          [class.hidden]="!dbUser.isTracking"
+          [class.hidden]="!dbUser.isTracking && !dbUser?.isFinished"
         >
          Distance: {{dbUser?.distance || 0}} km
         </div>
       </div>
       <button
-        *ngIf="isActualUser(dbUser.uid)"
+        *ngIf="usersService.isActualUser(dbUser.uid, userId) && !dbUser?.isFinished"
         class="btn btn-primary side-panel__action-button"   [class.disabled]="dbUser.isTracking" (click)="onStartTracking()"
       >
         Start tracking
       </button>
       <button
-        *ngIf="isActualUser(dbUser.uid)"
+        *ngIf="usersService.isActualUser(dbUser.uid, userId) && !dbUser?.isFinished"
         class="btn btn-primary side-panel__action-button"
         [class.disabled]="!dbUser.isTracking" (click)="onStopTracking()"
       >
         Stop tracking
       </button>
       <button
-        *ngIf="isEventAuthor(dbUser.uid)"
+        *ngIf="isEventAuthor(dbUser.uid) && !dbUser?.isFinished"
         class="btn btn-primary side-panel__action-button side-panel__action-button--reset"
         [class.disabled]="dbUser.isTracking" (click)="onResetEvenet()"
       >
         Reset event
       </button>
+
+      <div *ngIf="dbUser?.isFinished" class="text-center">
+        <img src="assets/finish.svg"  alt="icon finish" />
+      </div>
+
 
     </li>
   </ul>

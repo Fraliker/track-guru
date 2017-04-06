@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FirebaseListObservable } from 'angularfire2';
 
+import { UsersService } from './../services/users.service';
+
 @Component({
   selector: 'app-side-panel',
   templateUrl: './side-panel.component.html',
@@ -18,14 +20,14 @@ export class SidePanelComponent {
   @Output() stopTracking: EventEmitter<any> = new EventEmitter();
   @Output() resetEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(public usersService: UsersService) { }
 
   togglePanel() {
     this.isPanelClosed = !this.isPanelClosed;
   }
 
-  isActualUser(itemId) {
-    return itemId && itemId === this.userId;
+  isActualUser(itemId, userId) {
+    return itemId && userId && itemId === userId;
   }
 
   isEventAuthor(itemId) {

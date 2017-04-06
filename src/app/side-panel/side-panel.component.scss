@@ -82,6 +82,10 @@
     border: 1px solid gray;
     margin-bottom: 20px;
     padding: 10px;
+
+    &--finished {
+      background-color: rgba(250,220,210,0.7);
+    }
   }
 
   &__action-button {
