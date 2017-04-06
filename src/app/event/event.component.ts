@@ -29,6 +29,7 @@ export class EventComponent implements OnInit {
   eventDestinationPoint: Point;
 
   eventKey: string;
+  eventUsers: any[];
   defaultZoom = 17;
   minTargetDistance = 20;
   minAccuracy = 25;
@@ -94,6 +95,14 @@ export class EventComponent implements OnInit {
           lat: event.mapDestinationLat,
           lng: event.mapDestinationLng
         }
+
+        // ... and list of assigned users
+        console.log(Object.keys(event.users));
+        this.dbUsers.subscribe((users) => {
+          this.eventUsers = users.filter(user =>
+            event.users && Object.keys(event.users).indexOf(user.uid) > -1
+          )
+        });
       })
     });
    }
@@ -221,7 +230,7 @@ interface User {
   alt: number;
   created_at: string;
   eventStarted: string;
-  full_name: string;
+  fullName: string;
   isTracking: boolean;
   isFinished: boolean;
   isVisitor: boolean;

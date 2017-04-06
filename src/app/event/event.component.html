@@ -11,8 +11,8 @@
   </app-gmaps>
   <app-side-panel
     class="event-box__item event-box__item--panel"
-    [dbUsers]="dbUsers"
     [eventId]="eventId"
+    [eventUsers]="eventUsers"
     [eventAuthorId]="(dbEvent | async)?.created_by"
     [userId]="userId"
     (startTracking)="startTracking()"
