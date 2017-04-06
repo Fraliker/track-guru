@@ -3,6 +3,10 @@
     class="event-box__item"
     [eventTracks]="eventTracks"
     [dbUser]="dbUser"
+    [dbEvent]="dbEvent"
+    [eventAuthorId]="(dbEvent | async)?.created_by"
+    [userId]="userId"
+    (updateTargetPosition)="updateTargetPosition($event)"
     >
   </app-gmaps>
   <app-side-panel

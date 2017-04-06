@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   SebmGoogleMap,
   SebmGoogleMapPolyline,
   SebmGoogleMapPolylinePoint
 } from 'angular2-google-maps/core';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { UsersService } from './../services/users.service';
 
 @Component({
   selector: 'app-gmaps',
@@ -13,10 +14,20 @@ import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 })
 
 export class GmapsComponent {
-  @Input() eventTracks: Track;
+  @Input() eventTracks: Track[];
   @Input() dbUser: FirebaseObjectObservable<any>;
+  @Input() dbEvent: FirebaseObjectObservable<any>;
 
-  constructor() {}
+  @Input() userId: string;
+  @Input() eventAuthorId: string;
+
+  @Output() updateTargetPosition: EventEmitter<any> = new EventEmitter();
+
+  constructor(public usersService: UsersService) {}
+
+  onUpdateTargetPosition(event) {
+    this.updateTargetPosition.emit(event);
+  }
 }
 
 interface Point {

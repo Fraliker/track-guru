@@ -25,9 +25,13 @@ export class EventComponent implements OnInit {
   Math: any;
   navigator: any;
   userId: string;
+  isTracking: boolean;
+  eventDestinationPoint: Point;
 
   eventKey: string;
   defaultZoom = 17;
+  minTargetDistance = 20;
+  minAccuracy = 25;
 
   private isLoggedIn: Boolean;
   private user_displayName: String;
@@ -45,17 +49,24 @@ export class EventComponent implements OnInit {
 
     this.Math = Math;
     this.navigator = navigator;
+
     this.authService.af.auth.subscribe(
       (auth) => {
         if (auth !== null) {
           this.dbUsers.subscribe((users) => {
             users.map((user) => {
-              if(user.uid === auth.uid && this.userId !== auth.uid) {
-                this.userId = auth.uid;
-                this.dbUser = af.database.object(`/users/${user.$key}`);
-                this.dbUser.update({
-                  isTracking: false,
-                });
+              // if auth user
+              if(user.uid === auth.uid) {
+                this.isTracking = user.isTracking;
+
+                // if caused by page reload we should reload data and disable tracking
+                if(this.userId !== auth.uid) {
+                  this.userId = auth.uid;
+                  this.dbUser = af.database.object(`/users/${user.$key}`);
+                  this.dbUser.update({
+                    isTracking: false,
+                  });
+                }
               }
             })
           });
@@ -76,6 +87,14 @@ export class EventComponent implements OnInit {
           }
         })
       });
+
+      // on every update get actual destination point
+      this.dbEvent.subscribe((event) => {
+        this.eventDestinationPoint = {
+          lat: event.mapDestinationLat,
+          lng: event.mapDestinationLng
+        }
+      })
     });
    }
 
@@ -102,16 +121,18 @@ export class EventComponent implements OnInit {
       const actualLat = position.coords.latitude;
       const actualLng = position.coords.longitude;
       // conversion m/s to km/h + parse sample: 12.5
-      const actualSpeed = parseFloat((position.coords.speed  * 3.6).toFixed(1));
+      const actualSpeed = parseFloat(((position.coords.speed || 0)  * 3.6).toFixed(1));
       const actualAlt = position.coords.altitude || 0;
+
 
       this.af.database
         .object(`/tracks/${this.trackingStartTime}`)
-        .subscribe((track) =>  this.actualDistance = this.mapAddons.getDistance(track)); //);
+        .subscribe((track) =>  this.actualDistance = this.mapAddons.getDistance(track));
 
       this.dbUser.update({
         alt: actualAlt,
         isTracking: true,
+        isFinished: false,
         mapCenterLat: actualLat,
         mapCenterLng: actualLng,
         mapZoom: this.defaultZoom,
@@ -123,6 +144,18 @@ export class EventComponent implements OnInit {
         lat: actualLat,
         lng: actualLng,
       };
+
+      // if we reached the target then
+      if (this.isEventTargetReached(point, this.eventDestinationPoint, this.minTargetDistance)) {
+        alert('Congratulations');
+        this.dbUser.update({
+          isFinished: true,
+        });
+        return this.stopTracking();
+      }
+
+      // TODO: to be verified - push only points with good accuracy
+      // if (position.coords.accuracy > this.minAccuracy) return null;
 
       this.actualTrack.points.push(point);
 
@@ -148,6 +181,7 @@ export class EventComponent implements OnInit {
       isTracking: false,
       speed: 0,
     });
+    this.dbTracks.remove(this.trackingStartTime.toString());
   }
 
   resetEvent() {
@@ -155,6 +189,18 @@ export class EventComponent implements OnInit {
       this.stopTracking();
       this.dbTracks.remove();
     }
+  }
+
+  isEventTargetReached(point, eventDestinationPoint, minTargetDistance) {
+    return this.mapAddons.point2PointDistance(point, eventDestinationPoint) < minTargetDistance;
+  }
+
+  updateTargetPosition(event) {
+    const point = event && event.coords;
+    point && this.dbEvent.update({
+      mapDestinationLat: point.lat,
+      mapDestinationLng: point.lng
+    });
   }
 }
 
@@ -177,6 +223,7 @@ interface User {
   eventStarted: string;
   full_name: string;
   isTracking: boolean;
+  isFinished: boolean;
   isVisitor: boolean;
   mapCenterLat: number;
   mapCenterLng: number;
