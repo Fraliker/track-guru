@@ -97,7 +97,6 @@ export class EventComponent implements OnInit {
         }
 
         // ... and list of assigned users
-        console.log(Object.keys(event.users));
         this.dbUsers.subscribe((users) => {
           this.eventUsers = users.filter(user =>
             event.users && Object.keys(event.users).indexOf(user.uid) > -1
@@ -190,7 +189,11 @@ export class EventComponent implements OnInit {
       isTracking: false,
       speed: 0,
     });
-    this.dbTracks.remove(this.trackingStartTime.toString());
+
+    // if tracking was started for this event
+    if(this.trackingStartTime) {
+      this.dbTracks.remove(this.trackingStartTime.toString());
+    }
   }
 
   resetEvent() {
