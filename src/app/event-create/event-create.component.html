@@ -18,10 +18,20 @@
         [latitude]="destinationPoint.lat"
         [longitude]="destinationPoint.lng"
         (dragEnd)="updateTargetPosition($event)"
+        iconUrl="assets/target_point.svg"
       >
       </sebm-google-map-marker>
     </sebm-google-map>
   </div>
-
-  <button type="submit" class="btn btn-default">Submit</button>
+  <div class="form-group">
+    <ss-multiselect-dropdown
+      [options]="myOptions"
+      [(ngModel)]="optionsModel"
+      (ngModelChange)="onChange($event)"
+      name="multiselect"
+      ></ss-multiselect-dropdown>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-default">Submit</button>
+  </div>
 </form>
