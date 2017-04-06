@@ -18,13 +18,18 @@ import { SidePanelComponent } from './side-panel/side-panel.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { EventComponent } from './event/event.component';
-
-import { AuthService } from './providers/index';
-import { AuthGuard } from './guards/index';
-import { routing } from './app.routing';
 import { EventListComponent } from './event-list/event-list.component';
 import { EventCreateComponent } from './event-create/event-create.component';
+
 import { MapAddonsService} from './services/map-addons.service';
+import { UsersService } from './services/users.service';
+
+import { AuthService } from './providers/index';
+
+import { AuthGuard } from './guards/index';
+
+import { routing } from './app.routing';
+
 
 @NgModule({
   declarations: [
@@ -53,7 +58,7 @@ import { MapAddonsService} from './services/map-addons.service';
     }),
     routing
   ],
-  providers: [AuthGuard, AuthService, MapAddonsService],
+  providers: [AuthGuard, AuthService, MapAddonsService, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
