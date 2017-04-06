@@ -31,7 +31,7 @@ export class LoginPageComponent implements OnInit {
                 alt: 0,
                 created_at: (new Date).toString(),
                 eventStarted: '',
-                full_name: auth.auth.displayName,
+                fullName: auth.auth.displayName,
                 isTracking: false,
                 isVisitor: false,
                 mapCenterLat: 0,
@@ -75,7 +75,7 @@ interface User {
   alt: number;
   created_at: string;
   eventStarted: string;
-  full_name: string;
+  fullName: string;
   isTracking: boolean;
   isVisitor: boolean;
   mapCenterLat: number;
