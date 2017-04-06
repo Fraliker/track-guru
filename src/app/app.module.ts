@@ -7,6 +7,7 @@ import {
   AuthMethods,
   AuthProviders
 } from 'angularfire2';
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 
 import { AppComponent } from './app.component';
 import { GmapsComponent } from './gmaps/gmaps.component';
@@ -49,6 +50,7 @@ import { routing } from './app.routing';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    MultiselectDropdownModule,
     AngularFireModule.initializeApp(firebaseConfig, {
       provider: AuthProviders.Google,
       method: AuthMethods.Popup
