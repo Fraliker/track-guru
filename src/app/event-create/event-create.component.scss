@@ -1,0 +1,10 @@
+.create-event {
+  margin: 40px auto;
+  max-width: 1000px;
+  padding: 0 20px;
+
+  &__map {
+    height: 300px;
+    max-height: 60vh;
+  }
+}
