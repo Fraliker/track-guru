@@ -9,7 +9,6 @@ export class AuthService {
    * @returns {firebase.Promise<FirebaseAuthState>}
    */
   loginWithGoogle() {
-    console.log(this.af);
     return this.af.auth.login({
       provider: AuthProviders.Google,
       method: AuthMethods.Popup,

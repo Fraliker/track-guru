@@ -92,8 +92,6 @@ export class EventCreateComponent implements OnInit {
       users: selectedUsers,
     }
 
-    console.log(selectedUsers);
-
     this.dbEvents.push(this.newEvent);
     this.router.navigate(['']);
 
