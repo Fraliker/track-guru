@@ -4,12 +4,24 @@
     <input type="text" class="form-control" name="eventName" id="eventName" required="required" ngModel>
   </div>
   <div class="form-group">
-    <label for="latitude">Latitude:</label>
-    <input type="text" class="form-control" name="latitude" id="latitude" required="required" ngModel>
+    <label for="eventName">Drag marker to desired destination point:</label>
+    <sebm-google-map
+      class="create-event__map"
+      [latitude]="mapCenterLat.lat"
+      [longitude]="mapCenterLat.lng"
+      [zoom]="mapZoom"
+      [disableDefaultUI]="true"
+      [zoomControl]="true"
+    >
+      <sebm-google-map-marker
+        [markerDraggable]="true"
+        [latitude]="destinationPoint.lat"
+        [longitude]="destinationPoint.lng"
+        (dragEnd)="updateTargetPosition($event)"
+      >
+      </sebm-google-map-marker>
+    </sebm-google-map>
   </div>
-  <div class="form-group">
-    <label for="longitude">Longitude:</label>
-    <input type="text" class="form-control" name="longitude" id="longitude" required="required" ngModel>
-  </div>
+
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
