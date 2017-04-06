@@ -20,8 +20,7 @@ export class MapAddonsService {
       Math.sin(dLong / 2) * Math.sin(dLong / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
-    alert(d);
-    return d / 1000; // returns the distance in kilometers
+    return d; // returns the distance in meters
   };
 
   getDistance(track): number {
@@ -33,7 +32,7 @@ export class MapAddonsService {
     for( let i = 0; i< (points.length - 1); i++) {
       summaryDistance += this.point2PointDistance(points[i], points[i+1]);
     }
-    return summaryDistance.toFixed(2); //format example 2.35 km
+    return parseFloat((summaryDistance/ 1000).toFixed(2)); //format example 2.35 km
   }
 }
 
