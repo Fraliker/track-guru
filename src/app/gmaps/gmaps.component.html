@@ -4,7 +4,7 @@
     [longitude]="(dbUser | async)?.mapCenterLng"
     [zoom]="(dbUser | async)?.mapZoom"
     [disableDefaultUI]="true"
-    [zoomControl]="false">
+    [zoomControl]="true">
 
     <sebm-google-map-polyline
       *ngFor="let track of eventTracks"
