@@ -9,12 +9,12 @@
     [class.side-panel__wrapper--hidden]="isPanelClosed"
   >
     <li
-      *ngFor="let dbUser of dbUsers | async"
+      *ngFor="let dbUser of eventUsers"
       class="side-panel__item clearfix"
       [class.side-panel__item--finished]="dbUser?.isFinished"
     >
       <div class="side-panel__name">
-        {{dbUser.full_name}}
+        {{dbUser.fullName}}
       </div>
       <div class="side-panel__stats">
         <div

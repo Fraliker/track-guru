@@ -11,7 +11,7 @@ import { UsersService } from './../services/users.service';
 
 export class SidePanelComponent {
   isPanelClosed = true;
-  @Input() dbUsers: FirebaseListObservable<any[]>;
+  @Input() eventUsers: User[];
   @Input() eventId: string;
   @Input() userId: string;
   @Input() eventAuthorId: string;
@@ -20,7 +20,7 @@ export class SidePanelComponent {
   @Output() stopTracking: EventEmitter<any> = new EventEmitter();
   @Output() resetEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor(public usersService: UsersService) { }
+  constructor(public usersService: UsersService) {}
 
   togglePanel() {
     this.isPanelClosed = !this.isPanelClosed;
@@ -53,4 +53,19 @@ export class SidePanelComponent {
     // after side panel toggle (causing blank fields under the panel)
     return event.target.innerWidth;
   }
+}
+
+interface User {
+  alt: number;
+  created_at: string;
+  eventStarted: string;
+  fullName: string;
+  isTracking: boolean;
+  isFinished: boolean;
+  isVisitor: boolean;
+  mapCenterLat: number;
+  mapCenterLng: number;
+  mapDestinationLat: number;
+  mapDestinationLng: number;
+  mapZoom: number;
 }
