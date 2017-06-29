@@ -3,16 +3,16 @@
   "version": "0.0.0",
   "license": "MIT",
   "engines": {
-    "node": "7.0"
+    "node": "7.0",
+    "npm": "4.2"
   },
-  "angular-cli": {},
   "scripts": {
-    "start": "http-server",
+    "start": "http-server dist/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "preinstall": "npm install -g http-server",
-    "postinstall": "ng build && mv dist/* ."
+    "heroku-prebuild": "npm install -g http-server",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
