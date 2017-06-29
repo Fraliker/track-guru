@@ -2,7 +2,7 @@
 
 ## ! important !
 
-Add own credentials to `/src/environments/firebase.config.ts` using following sample:
+Add own credentials to `/src/environments/firebase.config.ts` using following sample or using sample file located in the same directory: `/src/environments/firebase-sample.config.ts`:
 
 ```
 export const firebaseConfig = {
