@@ -1,21 +1,27 @@
+$static-gray: rgba(210, 220, 240, .7);
+$typical-gray: #808080;
+$pathetic-gray: #228f8c;
+$pure-beige: #f5f5dc;
+$stale-white: rgba(250, 220, 210, .7);
+
 .side-panel {
-  height: 100%;
   position: relative;
   width: auto;
+  height: 100%;
 
   &__button {
     position: absolute;
     top: 10px;
-    display: block;
     left: -50px;
+    z-index: 1;
+    display: block;
     width: 50px;
     height: 50px;
-    background-color: beige;
-    cursor: pointer;
-    z-index: 1;
     font-size: 30px;
     line-height: 40px;
-    border: 1px solid #228F8C;
+    border: 1px solid $pathetic-gray;
+    background-color: $pure-beige;
+    cursor: pointer;
 
     @media (min-width: 768px) {
       display: none;
@@ -30,8 +36,8 @@
 
   &__name {
     margin-bottom: 10px;
-    font-size: 18px;
     font-family: 'PT Sans Bold';
+    font-size: 18px;
     cursor: default;
 
     @media (min-width: 768px) {
@@ -40,9 +46,8 @@
   }
 
   &__stats {
-    min-height: 20px;
-    cursor: default;
     min-height: 47px;
+    cursor: default;
 
     @media (min-width: 768px) {
       margin: 0 5px;
@@ -54,12 +59,12 @@
   }
 
   &__wrapper {
-    height: 100%;
-    list-style: none;
     overflow-x: hidden;
     overflow-y: auto;
     width: 300px;
+    height: 100%;
     padding: 20px;
+    list-style: none;
 
     @media (min-width: 768px) {
       width: 400px;
@@ -76,32 +81,32 @@
   }
 
   &__item {
-    background-color: rgba(210,220,240,0.7);
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border: 1px solid gray;
     margin-bottom: 20px;
     padding: 10px;
+    border: 1px solid $typical-gray;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: $static-gray;
 
     &--finished {
-      background-color: rgba(250,220,210,0.7);
+      background-color: $stale-white;
     }
   }
 
   &__action-button {
     display: block;
-    margin-bottom: 10px;
     width: 100%;
+    margin-bottom: 10px;
 
     @media (min-width: 768px) {
       float: left;
-      margin: 0 5px;
       width: calc(50% - 10px);
+      margin: 0 5px;
     }
 
     &--reset {
-      margin: 15px 0 0;
       width: 100%;
+      margin: 15px 0 0;
 
       @media (min-width: 768px) {
         margin: 15px 5px 0;
