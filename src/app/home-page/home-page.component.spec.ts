@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomePageComponent } from './home-page.component';
-import { EventListComponent } from './,,/event-list/event-list.component';
+import { EventListComponent } from './../event-list/event-list.component';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;

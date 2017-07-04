@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseObjectObservable } from 'angularfire2/database';
 import { AuthService } from '../providers/auth.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AuthService } from '../providers/auth.service';
 export class HeaderComponent {
   isLoggedIn = false;
   constructor(public authService: AuthService, private router: Router) {
-    this.authService.af.auth.subscribe(
+    this.authService.afAuth.subscribe(
       (auth) => {
         if (auth !== null) {
           this.isLoggedIn = true;

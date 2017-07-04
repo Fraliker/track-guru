@@ -4,7 +4,7 @@ import {
   SebmGoogleMapPolyline,
   SebmGoogleMapPolylinePoint
 } from 'angular2-google-maps/core';
-import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { UsersService } from './../services/users.service';
 
 @Component({

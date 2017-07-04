@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FirebaseListObservable } from 'angularfire2';
+import { FirebaseListObservable } from 'angularfire2/database';
 
 import { UsersService } from './../services/users.service';
 

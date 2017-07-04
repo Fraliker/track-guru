@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AuthService } from '../providers/auth.service';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 import {
@@ -35,12 +35,12 @@ export class EventCreateComponent implements OnInit {
   myOptions: any[];
 
 
-  constructor(af: AngularFire, public authService: AuthService, public router: Router) {
-    this.dbUsers = af.database.list(`/users`);
-    this.authService.af.auth.subscribe((auth) => {
+  constructor(db: AngularFireDatabase, public authService: AuthService, public router: Router) {
+    this.dbUsers = db.list(`/users`);
+    this.authService.afAuth.authState.subscribe((auth) => {
       if (auth !== null) {
         this.uid = auth.uid;
-        this.dbEvents = af.database.list('/events');
+        this.dbEvents = db.list('/events');
       }
     });
 

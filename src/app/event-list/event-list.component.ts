@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AuthService } from '../providers/auth.service';
 
 @Component({
@@ -13,12 +13,12 @@ export class EventListComponent implements OnInit {
   myEvents: any[];
   uid: string;
 
-  constructor(af: AngularFire, public authService: AuthService, public router: Router) {
-    this.authService.af.auth.subscribe((auth) => {
+  constructor(db: AngularFireDatabase, public authService: AuthService, public router: Router) {
+    this.authService.afAuth.subscribe((auth) => {
       if (auth !== null) {
         this.uid = auth.uid;
 
-        this.dbEvents = af.database.list('/events');
+        this.dbEvents = db.list('/events');
         this.dbEvents.subscribe(
           (allEvents) => {
             this.myEvents = [];

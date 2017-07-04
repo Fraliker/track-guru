@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AuthService } from '../providers/auth.service';
 @Component({
   selector: 'app-login-page',
@@ -12,9 +12,9 @@ export class LoginPageComponent implements OnInit {
   userAccountExist = false;
   userAccount: User;
 
-  constructor(af: AngularFire, public authService: AuthService, private router:Router) {
-    this.dbUsers = af.database.list(`/users`);
-    this.authService.af.auth.subscribe(
+  constructor(db: AngularFireDatabase, public authService: AuthService, private router:Router) {
+    this.dbUsers = db.list(`/users`);
+    this.authService.afAuth.subscribe(
       (auth) => {
         if (auth !== null) {
           this.dbUsers.subscribe((users) => {

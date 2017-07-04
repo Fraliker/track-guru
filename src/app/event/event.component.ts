@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AuthService } from '../providers/auth.service';
 import { GmapsComponent } from './../gmaps/gmaps.component';
 import { MapAddonsService} from './../services/map-addons.service';
@@ -39,19 +39,19 @@ export class EventComponent implements OnInit {
   private user_email: String;
 
   constructor(
-    public af: AngularFire,
+    public db: AngularFireDatabase,
     public authService: AuthService,
     private router: Router,
     public route: ActivatedRoute,
     public mapAddons: MapAddonsService
   ) {
-    this.dbTracks = af.database.list('/tracks');
-    this.dbUsers = af.database.list(`/users`);
+    this.dbTracks = db.list('/tracks');
+    this.dbUsers = db.list(`/users`);
 
     this.Math = Math;
     this.navigator = navigator;
 
-    this.authService.af.auth.subscribe(
+    this.authService.afAuth.authState.subscribe(
       (auth) => {
         if (auth !== null) {
           this.dbUsers.subscribe((users) => {
@@ -63,7 +63,7 @@ export class EventComponent implements OnInit {
                 // if caused by page reload we should reload data and disable tracking
                 if(this.userId !== auth.uid) {
                   this.userId = auth.uid;
-                  this.dbUser = af.database.object(`/users/${user.$key}`);
+                  this.dbUser = db.object(`/users/${user.$key}`);
                   this.dbUser.update({
                     isTracking: false,
                   });
@@ -77,7 +77,7 @@ export class EventComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.eventKey = params['id'];
-      this.dbEvent = af.database.object(`/events/${this.eventKey}`);
+      this.dbEvent = db.object(`/events/${this.eventKey}`);
 
       // reload eventTracks related to actual event by eventId
       this.dbTracks.subscribe((tracks) => {
@@ -133,7 +133,7 @@ export class EventComponent implements OnInit {
       const actualAlt = position.coords.altitude || 0;
 
 
-      this.af.database
+      this.db
         .object(`/tracks/${this.trackingStartTime}`)
         .subscribe((track) =>  this.actualDistance = this.mapAddons.getDistance(track));
 
